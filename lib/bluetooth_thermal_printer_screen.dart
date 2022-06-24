@@ -1,8 +1,13 @@
 import 'dart:async';
+import 'dart:typed_data';
 
+import 'package:barcode/barcode.dart';
+import 'package:barcode_image/barcode_image.dart';
 import 'package:bluetooth_thermal_printer/bluetooth_thermal_printer.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart' hide Barcode;
 import 'package:flutter/material.dart' hide Image;
+import 'package:image/image.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class BlueToothThermalScreen extends StatefulWidget {
   @override
@@ -64,6 +69,21 @@ class _BlueToothThermalScreenState extends State<BlueToothThermalScreen> {
 
     CapabilityProfile profile = await CapabilityProfile.load();
     final generator = Generator(PaperSize.mm80, profile);
+
+    // Create an image
+    final image = Image(300, 300);
+
+    // Fill it with a solid color (white)
+    fill(image, getColor(255, 255, 255));
+
+    // Draw the barcode
+    drawBarcode(image, Barcode.qrCode(), "Yellow mellow", font: arial_24);
+    bytes += generator.image(image);
+
+    bytes += generator.text("Home");
+    Uint8List data = Uint8List.fromList(image.data);
+    QrCode.fromUint8List(data: data, errorCorrectLevel: QrErrorCorrectLevel.L);
+    bytes += generator.hr();
 
     // Print Barcode using native function
     final List<int> barData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 4];
