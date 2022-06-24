@@ -45,7 +45,7 @@ class _BlueToothThermalScreenState extends State<BlueToothThermalScreen> {
   Future<void> printTicket() async {
     String? isConnected = await BluetoothThermalPrinter.connectionStatus;
     if (isConnected == "true") {
-      List<int> bytes = await getTicket();
+      List<int> bytes = await printSampleText();
       final result = await BluetoothThermalPrinter.writeBytes(bytes);
       debugPrint("Print $result");
     } else {
@@ -56,7 +56,7 @@ class _BlueToothThermalScreenState extends State<BlueToothThermalScreen> {
   Future<void> printGraphics() async {
     String? isConnected = await BluetoothThermalPrinter.connectionStatus;
     if (isConnected == "true") {
-      List<int> bytes = await getGraphicsTicket();
+      List<int> bytes = await printQrCode();
       final result = await BluetoothThermalPrinter.writeBytes(bytes);
       debugPrint("Print $result");
     } else {
@@ -64,7 +64,7 @@ class _BlueToothThermalScreenState extends State<BlueToothThermalScreen> {
     }
   }
 
-  Future<List<int>> getGraphicsTicket() async {
+  Future<List<int>> printQrCode() async {
     List<int> bytes = [];
 
     CapabilityProfile profile = await CapabilityProfile.load();
@@ -94,12 +94,12 @@ class _BlueToothThermalScreenState extends State<BlueToothThermalScreen> {
     return bytes;
   }
 
-  Future<List<int>> getTicket() async {
+  Future<List<int>> printSampleText() async {
     List<int> bytes = [];
     CapabilityProfile profile = await CapabilityProfile.load();
-    final generator = Generator(PaperSize.mm80, profile);
+    final generator = Generator(PaperSize.mm58, profile);
 
-    bytes += generator.text("Demo Shop",
+    bytes += generator.text("Sample text",
         styles: const PosStyles(
           align: PosAlign.center,
           height: PosTextSize.size2,
@@ -107,143 +107,36 @@ class _BlueToothThermalScreenState extends State<BlueToothThermalScreen> {
         ),
         linesAfter: 1);
 
-    bytes += generator.text(
-        "18th Main Road, 2nd Phase, J. P. Nagar, Bengaluru, Karnataka 560078",
-        styles: const PosStyles(align: PosAlign.center));
-    bytes += generator.text('Tel: +919591708470',
+    bytes += generator.text("Type you centered text here",
         styles: const PosStyles(align: PosAlign.center));
 
-    bytes += generator.hr();
-    bytes += generator.row([
-      PosColumn(
-          text: 'No',
-          width: 1,
-          styles: const PosStyles(align: PosAlign.left, bold: true)),
-      PosColumn(
-          text: 'Item',
-          width: 5,
-          styles: const PosStyles(align: PosAlign.left, bold: true)),
-      PosColumn(
-          text: 'Price',
-          width: 2,
-          styles: const PosStyles(align: PosAlign.center, bold: true)),
-      PosColumn(
-          text: 'Qty',
-          width: 2,
-          styles: const PosStyles(align: PosAlign.center, bold: true)),
-      PosColumn(
-          text: 'Total',
-          width: 2,
-          styles: const PosStyles(align: PosAlign.right, bold: true)),
-    ]);
-
-    bytes += generator.row([
-      PosColumn(text: "1", width: 1),
-      PosColumn(
-          text: "Tea",
-          width: 5,
-          styles: const PosStyles(
-            align: PosAlign.left,
-          )),
-      PosColumn(
-          text: "10",
-          width: 2,
-          styles: const PosStyles(
-            align: PosAlign.center,
-          )),
-      PosColumn(text: "1", width: 2, styles: PosStyles(align: PosAlign.center)),
-      PosColumn(text: "10", width: 2, styles: PosStyles(align: PosAlign.right)),
-    ]);
-
-    bytes += generator.row([
-      PosColumn(text: "2", width: 1),
-      PosColumn(
-          text: "Sada Dosa",
-          width: 5,
-          styles: const PosStyles(
-            align: PosAlign.left,
-          )),
-      PosColumn(
-          text: "30",
-          width: 2,
-          styles: const PosStyles(
-            align: PosAlign.center,
-          )),
-      PosColumn(
-          text: "1", width: 2, styles: const PosStyles(align: PosAlign.center)),
-      PosColumn(
-          text: "30", width: 2, styles: const PosStyles(align: PosAlign.right)),
-    ]);
-
-    bytes += generator.row([
-      PosColumn(text: "3", width: 1),
-      PosColumn(
-          text: "Masala Dosa",
-          width: 5,
-          styles: const PosStyles(
-            align: PosAlign.left,
-          )),
-      PosColumn(
-          text: "50",
-          width: 2,
-          styles: const PosStyles(
-            align: PosAlign.center,
-          )),
-      PosColumn(text: "1", width: 2, styles: PosStyles(align: PosAlign.center)),
-      PosColumn(text: "50", width: 2, styles: PosStyles(align: PosAlign.right)),
-    ]);
-
-    bytes += generator.row([
-      PosColumn(text: "4", width: 1),
-      PosColumn(
-          text: "Rova Dosa",
-          width: 5,
-          styles: const PosStyles(
-            align: PosAlign.left,
-          )),
-      PosColumn(
-          text: "70",
-          width: 2,
-          styles: const PosStyles(
-            align: PosAlign.center,
-          )),
-      PosColumn(text: "1", width: 2, styles: PosStyles(align: PosAlign.center)),
-      PosColumn(text: "70", width: 2, styles: PosStyles(align: PosAlign.right)),
-    ]);
-
+    // Hr lines ---------
     bytes += generator.hr();
 
+    // Row
     bytes += generator.row([
+      /* column width should add up to 12 */
       PosColumn(
-          text: 'TOTAL',
+          text: "Title sample: ",
           width: 6,
           styles: const PosStyles(
             align: PosAlign.left,
-            height: PosTextSize.size4,
-            width: PosTextSize.size4,
           )),
       PosColumn(
-          text: "160",
+          text: "Price sample",
           width: 6,
           styles: const PosStyles(
-            align: PosAlign.right,
-            height: PosTextSize.size4,
-            width: PosTextSize.size4,
+            align: PosAlign.center,
           )),
     ]);
 
+    // Hr lines =======
     bytes += generator.hr(ch: '=', linesAfter: 1);
 
     // ticket.feed(2);
-    bytes += generator.text('Thank you!',
+    bytes += generator.text('Have fun!',
         styles: const PosStyles(align: PosAlign.center, bold: true));
 
-    bytes += generator.text("26-11-2020 15:22:45",
-        styles: const PosStyles(align: PosAlign.center), linesAfter: 1);
-
-    bytes += generator.text(
-        'Note: Goods once sold will not be taken back or exchanged.',
-        styles: const PosStyles(align: PosAlign.center, bold: false));
     bytes += generator.cut();
     return bytes;
   }
