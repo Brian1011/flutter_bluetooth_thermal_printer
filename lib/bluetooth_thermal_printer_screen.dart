@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:barcode/barcode.dart';
 import 'package:barcode_image/barcode_image.dart';
 import 'package:bluetooth_thermal_printer/bluetooth_thermal_printer.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart' hide Barcode;
@@ -10,6 +9,8 @@ import 'package:image/image.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class BlueToothThermalScreen extends StatefulWidget {
+  const BlueToothThermalScreen({Key? key}) : super(key: key);
+
   @override
   _BlueToothThermalScreenState createState() => _BlueToothThermalScreenState();
 }
@@ -24,17 +25,17 @@ class _BlueToothThermalScreenState extends State<BlueToothThermalScreen> {
   List? availableBluetoothDevices = [];
 
   Future<void> getBluetooth() async {
-    final List? bluetooths = await BluetoothThermalPrinter.getBluetooths;
-    debugPrint("Print $bluetooths");
+    final List? bluetoothDevices = await BluetoothThermalPrinter.getBluetooths;
+    debugPrint("Print $bluetoothDevices");
     setState(() {
-      availableBluetoothDevices = bluetooths;
+      availableBluetoothDevices = bluetoothDevices;
     });
   }
 
   Future<void> setConnect(String mac) async {
-    debugPrint("try to connect");
+    debugPrint("Connecting please wait");
     final String? result = await BluetoothThermalPrinter.connect(mac);
-    debugPrint("state conneected $result");
+    debugPrint("state connected $result");
     if (result == "true") {
       setState(() {
         connected = true;
@@ -45,7 +46,7 @@ class _BlueToothThermalScreenState extends State<BlueToothThermalScreen> {
   Future<void> printTicket() async {
     String? isConnected = await BluetoothThermalPrinter.connectionStatus;
     if (isConnected == "true") {
-      List<int> bytes = await printSampleText();
+      List<int> bytes = await generateSampleText();
       final result = await BluetoothThermalPrinter.writeBytes(bytes);
       debugPrint("Print $result");
     } else {
@@ -56,7 +57,7 @@ class _BlueToothThermalScreenState extends State<BlueToothThermalScreen> {
   Future<void> printGraphics() async {
     String? isConnected = await BluetoothThermalPrinter.connectionStatus;
     if (isConnected == "true") {
-      List<int> bytes = await printQrCode();
+      List<int> bytes = await generateQrCode();
       final result = await BluetoothThermalPrinter.writeBytes(bytes);
       debugPrint("Print $result");
     } else {
@@ -64,7 +65,7 @@ class _BlueToothThermalScreenState extends State<BlueToothThermalScreen> {
     }
   }
 
-  Future<List<int>> printQrCode() async {
+  Future<List<int>> generateQrCode() async {
     List<int> bytes = [];
 
     CapabilityProfile profile = await CapabilityProfile.load();
@@ -94,7 +95,7 @@ class _BlueToothThermalScreenState extends State<BlueToothThermalScreen> {
     return bytes;
   }
 
-  Future<List<int>> printSampleText() async {
+  Future<List<int>> generateSampleText() async {
     List<int> bytes = [];
     CapabilityProfile profile = await CapabilityProfile.load();
     final generator = Generator(PaperSize.mm58, profile);
