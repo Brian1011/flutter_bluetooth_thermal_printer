@@ -72,7 +72,7 @@ class _BlueToothThermalScreenState extends State<BlueToothThermalScreen> {
     final generator = Generator(PaperSize.mm58, profile);
 
     // Create an image
-    final image = Image(300, 300);
+    final image = Image(200, 200);
 
     // Fill it with a solid color (white)
     fill(image, getColor(255, 255, 255));
