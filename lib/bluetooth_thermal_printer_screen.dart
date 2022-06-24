@@ -68,7 +68,7 @@ class _BlueToothThermalScreenState extends State<BlueToothThermalScreen> {
     List<int> bytes = [];
 
     CapabilityProfile profile = await CapabilityProfile.load();
-    final generator = Generator(PaperSize.mm80, profile);
+    final generator = Generator(PaperSize.mm58, profile);
 
     // Create an image
     final image = Image(300, 300);
