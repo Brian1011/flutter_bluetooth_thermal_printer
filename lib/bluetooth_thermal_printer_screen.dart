@@ -156,11 +156,11 @@ class _BlueToothThermalScreenState extends State<BlueToothThermalScreen> {
               const Text("Search Paired Bluetooth"),
               TextButton(
                 onPressed: () {
-                  this.getBluetooth();
+                  getBluetooth();
                 },
                 child: const Text("Search"),
               ),
-              Container(
+              SizedBox(
                 height: 200,
                 child: ListView.builder(
                   itemCount: (availableBluetoothDevices?.length ?? 0) > 0
@@ -173,10 +173,10 @@ class _BlueToothThermalScreenState extends State<BlueToothThermalScreen> {
                         List list = select.split("#");
                         // String name = list[0];
                         String mac = list[1];
-                        this.setConnect(mac);
+                        setConnect(mac);
                       },
                       title: Text('${availableBluetoothDevices?[index]}'),
-                      subtitle: Text("Click to connect"),
+                      subtitle: const Text("Click to connect"),
                     );
                   },
                 ),
@@ -185,11 +185,11 @@ class _BlueToothThermalScreenState extends State<BlueToothThermalScreen> {
                 height: 30,
               ),
               TextButton(
-                onPressed: connected ? this.printGraphics : null,
+                onPressed: connected ? printGraphics : null,
                 child: const Text("Print"),
               ),
               TextButton(
-                onPressed: connected ? this.printTicket : null,
+                onPressed: connected ? printTicket : null,
                 child: const Text("Print Ticket"),
               ),
             ],
