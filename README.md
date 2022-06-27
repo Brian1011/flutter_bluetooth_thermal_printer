@@ -1,8 +1,12 @@
-# Thermal Bluetooth Printer
+# Flutter Thermal Bluetooth Printer App
 
-A bluetooth thermal printer app.
+A bluetooth thermal printer demo app.
 
-Print texts, qr codes and images through a mobile app.
+Print texts, qr codes and images through a flutter mobile app.
+
+This is a demo app and is meant to aid the programmer on how to connect a flutter based app to a bluetooth thermal printer. It detects bluetooth devices and connects to a bluetooth printer sending a command to the printer on what to print.
+
+This is just a demo app and is not for sale.
 
 ## Flutter and dart version
 flutter 2.10.4 \
@@ -16,15 +20,9 @@ esc_pos_utils: ^1.1.0 \
 barcode: any \
 barcode_image: any
 
-## Getting Started
+## Printer used
+The printer used for this demonstration was Phoenix TP58T shown below.
+![](assets/20220627_152553.jpg)
+![](assets/20220627_152543.jpg)
 
-This project is a
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Photos and screenshots
