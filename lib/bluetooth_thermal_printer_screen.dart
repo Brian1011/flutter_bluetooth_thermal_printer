@@ -187,7 +187,7 @@ class _BlueToothThermalScreenState extends State<BlueToothThermalScreen> {
               ),
               TextButton(
                 onPressed: connected ? printGraphics : null,
-                child: const Text("Print"),
+                child: const Text("Print qr code"),
               ),
               TextButton(
                 onPressed: connected ? printTicket : null,
