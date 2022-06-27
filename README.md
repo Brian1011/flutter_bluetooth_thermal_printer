@@ -1,10 +1,10 @@
-# thermal_printer_bluetooth
+# Thermal Bluetooth Printer
 
-A new Flutter project.
+A bluetooth thermal printer app. Print texts, qr codes and images through a mobile app.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is a
 
 A few resources to get you started if this is your first Flutter project:
 
